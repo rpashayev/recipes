@@ -73,8 +73,6 @@ def delete_one_recipe(recipe_id):
     
     return redirect('/recipes')
 
-
-
 @app.route('/recipes/view/<int:recipe_id>')
 def show_one_recipe(recipe_id):
     if 'id' not in session:
