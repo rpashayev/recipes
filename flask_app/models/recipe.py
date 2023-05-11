@@ -62,32 +62,6 @@ class Recipe:
                 one_recipe.users_liked.append(user.User(liker_info))
         return all_recipes
     
-    # @classmethod
-    # def get_one_recipe(cls, data):
-    #     query = '''
-    #         SELECT *
-    #         FROM recipes
-    #         JOIN users ON users.id = recipes.user_id
-    #         WHERE recipes.id = %(id)s;
-    #     '''
-    #     results = connectToMySQL(cls.DB).query_db(query, data)
-        
-    #     one_recipe = cls(results[0])
-    #     for row in results:
-    #         creator_info = {
-    #             'id': row['users.id'],
-    #             'first_name': row['first_name'],
-    #             'last_name': row['last_name'],
-    #             'email': row['email'],
-    #             'password': row['password'],
-    #             'created_at': row['users.created_at'],
-    #             'updated_at': row['users.updated_at'],
-    #         }
-        
-    #         one_recipe.creator = user.User(creator_info)
-            
-    #     return one_recipe
-    
     @classmethod
     def get_one_recipe(cls, data):
         query = '''
