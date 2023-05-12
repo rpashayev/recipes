@@ -19,3 +19,14 @@ class Like:
         '''
         
         return connectToMySQL(cls.DB).query_db(query, data)
+
+    @classmethod
+    def withdraw_like(cls, data):
+        query = '''
+            DELETE
+            FROM likes
+            WHERE user_id = %(user_id)s AND recipe_id = %(recipe_id)s;
+        '''
+        
+        return connectToMySQL(cls.DB).query_db(query, data)
+    

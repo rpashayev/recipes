@@ -41,9 +41,13 @@
                         <td>{{ recipe.creator.first_name }}</td>
                         <td>{{ recipe.created_at }}</td>
                         <td>
-                            <form action="/recipes/like/{{ recipe.id }}" method="post">
-                                <button type="submit" class="btn btn-success">{{ recipe.users_liked|length }} Like(s)</button>
-                            </form>
+                            <button class="btn btn-primary rounded-circle"> {{ recipe.users_liked|length }} </button>
+                            {% if recipe.id in one_user.recipes_liked %}
+                                <a href="/recipes/unlike/{{ recipe.id }}" class="btn btn-secondary">Unlike</a>
+                                    
+                            {% else %}
+                                <a href="/recipes/like/{{ recipe.id }}" class="btn btn-success">Like</a>
+                            {% endif %}
                         </td>
                         <td>
                             <a href="/recipes/view/{{ recipe.id }}">View</a>

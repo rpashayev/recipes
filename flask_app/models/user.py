@@ -1,5 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
+from flask_app.models import recipe
 import re
 
 
@@ -31,16 +32,35 @@ class User:
         return connectToMySQL(cls.DB).query_db(query, data)
 
     @classmethod
-    def get_one_user(cls, data):
+    def get_one_user(cls, data):  
         query = '''
             SELECT *
             FROM users
-            WHERE id = %(id)s;
+            LEFT JOIN likes ON likes.user_id = users.id
+            LEFT JOIN recipes ON recipes.id = likes.recipe_id
+            WHERE users.id = %(id)s;
         '''
-        result = connectToMySQL(cls.DB).query_db(query, data)
-        if len(result) < 1:
+        results = connectToMySQL(cls.DB).query_db(query, data)
+        if len(results) < 1:
             return False
-        return cls(result[0])
+
+        one_user = cls(results[0])
+        # for row in results:
+        #     liked_recipe = {
+        #         'id': row['recipes.id'],
+        #         'name': row['name'],
+        #         'description': row['description'],
+        #         'instructions': row['instructions'],
+        #         'date_cooked': row['date_cooked'],
+        #         'long_cooking': row['long_cooking'],
+        #         'created_at': row['recipes.created_at'],
+        #         'updated_at': row['recipes.updated_at']
+        #     }
+        #     one_user.recipes_liked.append(recipe.Recipe(liked_recipe))
+        for row in results:
+            one_user.recipes_liked.append(row['recipes.id'])
+
+        return one_user
     
     @classmethod
     def get_user_by_email(cls,data):
